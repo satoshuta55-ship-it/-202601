@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>御堂筋線 梅田方面 掲示板</title>
+  <style>
+    :root{
+      --bg:#000000;
+      --panel:#0a0a0a;
+      --panel2:#121212;
+      --line:#242424;
+      --text:#ffffff;
+      --muted:#9ca3af;
+      --cyan:#22d3ee;
+      --green:#34d399;
+      --amber:#fcd34d;
+      --red:#f87171;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Yu Gothic UI","Noto Sans JP",sans-serif;
+    }
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+    }
+    .phone{
+      width:min(100%,460px);
+      background:linear-gradient(180deg,#111,#050505);
+      border:1px solid var(--line);
+      border-radius:32px;
+      overflow:hidden;
+      box-shadow:0 24px 60px rgba(0,0,0,.45);
+    }
+    .head{
+      padding:20px 20px 16px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,#111,#060606);
+    }
+    .row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .brand{
+      font-size:11px;
+      letter-spacing:.35em;
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+    h1{
+      margin:10px 0 0;
+      font-size:30px;
+      line-height:1.1;
+      font-weight:900;
+    }
+    .sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .clock-label{
+      font-size:12px;
+      color:var(--muted);
+      text-align:right;
+    }
+    .clock{
+      margin-top:4px;
+      font-weight:900;
+      font-size:34px;
+      font-variant-numeric:tabular-nums;
+      text-align:right;
+    }
+    .content{padding:20px}
+    .card{
+      background:var(--panel2);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:20px;
+    }
+    .next-tag{
+      font-size:12px;
+      letter-spacing:.25em;
+      text-transform:uppercase;
+      color:var(--cyan);
+    }
+    .next-main{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-end;
+      margin-top:16px;
+    }
+    .time-big{
+      font-size:68px;
+      line-height:.95;
+      font-weight:900;
+      font-variant-numeric:tabular-nums;
+    }
+    .dest-big{
+      margin-top:10px;
+      font-size:30px;
+      font-weight:800;
+    }
+    .remain-box{text-align:right}
+    .remain-label,.remain-unit{
+      color:var(--muted);
+      font-size:14px;
+    }
+    .remain-big{
+      font-size:64px;
+      line-height:.95;
+      font-weight:900;
+      font-variant-numeric:tabular-nums;
+      margin-top:4px;
+    }
+    .status{
+      margin-top:14px;
+      font-size:20px;
+      font-weight:800;
+    }
+    .green{color:var(--green)}
+    .amber{color:var(--amber)}
+    .red{color:var(--red)}
+    .muted{color:var(--muted)}
+    .list{
+      margin-top:18px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:28px;
+      overflow:hidden;
+    }
+    .thead,.item{
+      display:grid;
+      grid-template-columns:92px 1fr 82px;
+      gap:10px;
+      align-items:center;
+    }
+    .thead{
+      padding:12px 16px;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      background:#111;
+    }
+    .item{
+      padding:15px 16px;
+      border-top:1px solid #151515;
+    }
+    .item-time{
+      font-size:30px;
+      font-weight:900;
+      font-variant-numeric:tabular-nums;
+    }
+    .item-dest{
+      font-size:24px;
+      font-weight:800;
+    }
+    .item-status{
+      margin-top:4px;
+      font-size:14px;
+      font-weight:700;
+    }
+    .item-remain{
+      text-align:right;
+    }
+    .item-remain-num{
+      font-size:38px;
+      line-height:1;
+      font-weight:900;
+      font-variant-numeric:tabular-nums;
+    }
+    .item-remain-unit{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .foot{
+      margin-top:16px;
+      font-size:12px;
+      color:var(--muted);
+      text-align:center;
+      padding-bottom:4px;
+    }
+    @media (max-width: 420px){
+      h1{font-size:26px}
+      .clock{font-size:30px}
+      .time-big{font-size:58px}
+      .remain-big{font-size:54px}
+      .dest-big{font-size:26px}
+      .thead,.item{grid-template-columns:84px 1fr 74px}
+      .item-time{font-size:26px}
+      .item-dest{font-size:21px}
+      .item-remain-num{font-size:32px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="phone">
+      <div class="head">
+        <div class="row">
+          <div>
+            <div class="brand">Osaka Metro</div>
+            <h1>御堂筋線 梅田方面</h1>
+            <div class="sub">平日ダイヤ / 心斎橋駅 発</div>
+          </div>
+          <div>
+            <div class="clock-label">現在時刻</div>
+            <div class="clock" id="clock">--:--</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="card">
+          <div class="next-tag">Next Train</div>
+          <div class="next-main">
+            <div>
+              <div class="time-big" id="next-time">--:--</div>
+              <div class="dest-big" id="next-dest">---</div>
+            </div>
+            <div class="remain-box">
+              <div class="remain-label">あと</div>
+              <div class="remain-big" id="next-remain">0</div>
+              <div class="remain-unit">分</div>
+            </div>
+          </div>
+          <div class="status" id="next-status">---</div>
+        </div>
+
+        <div class="list">
+          <div class="thead">
+            <div>発車</div>
+            <div>行先</div>
+            <div style="text-align:right;">あと</div>
+          </div>
+          <div id="list-body"></div>
+        </div>
+
+        <div class="foot">1分ごとに自動更新 / 心斎橋駅発・梅田方面の平日ダイヤ</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const timetable = [
+      ["05:12","箕面萱野"], ["05:21","江坂"], ["05:31","箕面萱野"], ["05:41","江坂"], ["05:51","箕面萱野"],
+      ["06:01","箕面萱野"], ["06:10","箕面萱野"], ["06:19","新大阪"], ["06:24","箕面萱野"], ["06:28","新大阪"],
+      ["06:32","箕面萱野"], ["06:36","新大阪"], ["06:40","箕面萱野"], ["06:45","箕面萱野"], ["06:49","箕面萱野"],
+      ["06:52","新大阪"], ["06:57","箕面萱野"],
+
+      ["07:01","箕面萱野"], ["07:06","新大阪"], ["07:08","箕面萱野"], ["07:10","中津"], ["07:13","箕面萱野"],
+      ["07:15","新大阪"], ["07:17","箕面萱野"], ["07:19","中津"], ["07:22","箕面萱野"], ["07:24","新大阪"],
+      ["07:26","箕面萱野"], ["07:28","中津"], ["07:31","箕面萱野"], ["07:33","新大阪"], ["07:35","箕面萱野"],
+      ["07:37","中津"], ["07:40","箕面萱野"], ["07:42","新大阪"], ["07:44","箕面萱野"], ["07:46","中津"],
+      ["07:49","箕面萱野"], ["07:51","新大阪"], ["07:53","箕面萱野"], ["07:55","中津"], ["07:58","箕面萱野"],
+
+      ["08:00","新大阪"], ["08:02","箕面萱野"], ["08:04","中津"], ["08:07","箕面萱野"], ["08:09","新大阪"],
+      ["08:11","箕面萱野"], ["08:13","中津"], ["08:16","箕面萱野"], ["08:18","新大阪"], ["08:20","箕面萱野"],
+      ["08:22","中津"], ["08:25","箕面萱野"], ["08:27","新大阪"], ["08:29","箕面萱野"], ["08:31","中津"],
+      ["08:34","箕面萱野"], ["08:36","新大阪"], ["08:38","箕面萱野"], ["08:40","中津"], ["08:43","箕面萱野"],
+      ["08:45","新大阪"], ["08:47","箕面萱野"], ["08:49","中津"], ["08:52","箕面萱野"], ["08:54","新大阪"],
+      ["08:56","箕面萱野"], ["08:58","箕面萱野"],
+
+      ["09:01","中津"], ["09:03","箕面萱野"], ["09:06","新大阪"], ["09:08","箕面萱野"], ["09:11","中津"],
+      ["09:13","箕面萱野"], ["09:16","新大阪"], ["09:20","箕面萱野"], ["09:24","中津"], ["09:29","箕面萱野"],
+      ["09:32","新大阪"], ["09:36","箕面萱野"], ["09:41","箕面萱野"], ["09:45","中津"], ["09:50","箕面萱野"],
+      ["09:54","新大阪"], ["09:59","箕面萱野"],
+
+      ["10:03","新大阪"], ["10:07","箕面萱野"], ["10:11","中津"], ["10:14","箕面萱野"], ["10:18","新大阪"],
+      ["10:22","箕面萱野"], ["10:26","新大阪"], ["10:30","箕面萱野"], ["10:34","新大阪"], ["10:38","箕面萱野"],
+      ["10:42","新大阪"], ["10:46","箕面萱野"], ["10:50","新大阪"], ["10:54","箕面萱野"], ["10:58","新大阪"],
+
+      ["11:02","箕面萱野"], ["11:06","新大阪"], ["11:10","箕面萱野"], ["11:14","新大阪"], ["11:18","箕面萱野"],
+      ["11:22","新大阪"], ["11:26","箕面萱野"], ["11:30","新大阪"], ["11:34","箕面萱野"], ["11:38","新大阪"],
+      ["11:42","箕面萱野"], ["11:46","新大阪"], ["11:50","箕面萱野"], ["11:54","新大阪"], ["11:58","箕面萱野"],
+
+      ["12:02","新大阪"], ["12:06","箕面萱野"], ["12:10","新大阪"], ["12:14","箕面萱野"], ["12:18","新大阪"],
+      ["12:22","箕面萱野"], ["12:26","新大阪"], ["12:30","箕面萱野"], ["12:34","新大阪"], ["12:38","箕面萱野"],
+      ["12:42","新大阪"], ["12:46","箕面萱野"], ["12:50","新大阪"], ["12:54","箕面萱野"], ["12:58","新大阪"],
+
+      ["13:02","箕面萱野"], ["13:06","新大阪"], ["13:10","箕面萱野"], ["13:14","新大阪"], ["13:18","箕面萱野"],
+      ["13:22","新大阪"], ["13:26","箕面萱野"], ["13:30","新大阪"], ["13:34","箕面萱野"], ["13:38","新大阪"],
+      ["13:42","箕面萱野"], ["13:46","新大阪"], ["13:50","箕面萱野"], ["13:54","新大阪"], ["13:58","箕面萱野"],
+
+      ["14:02","新大阪"], ["14:06","箕面萱野"], ["14:10","新大阪"], ["14:14","箕面萱野"], ["14:18","新大阪"],
+      ["14:22","箕面萱野"], ["14:26","新大阪"], ["14:30","箕面萱野"], ["14:34","新大阪"], ["14:38","箕面萱野"],
+      ["14:42","新大阪"], ["14:46","箕面萱野"], ["14:50","新大阪"], ["14:54","箕面萱野"], ["14:58","新大阪"],
+
+      ["15:02","箕面萱野"], ["15:06","新大阪"], ["15:10","箕面萱野"], ["15:14","新大阪"], ["15:18","箕面萱野"],
+      ["15:22","新大阪"], ["15:26","箕面萱野"], ["15:30","新大阪"], ["15:34","箕面萱野"], ["15:38","新大阪"],
+      ["15:42","箕面萱野"], ["15:46","新大阪"], ["15:50","箕面萱野"], ["15:54","新大阪"], ["15:58","箕面萱野"],
+
+      ["16:02","新大阪"], ["16:05","箕面萱野"], ["16:09","箕面萱野"], ["16:13","新大阪"], ["16:16","箕面萱野"],
+      ["16:19","箕面萱野"], ["16:23","新大阪"], ["16:26","箕面萱野"], ["16:30","箕面萱野"], ["16:34","箕面萱野"],
+      ["16:37","中津"], ["16:40","箕面萱野"], ["16:43","新大阪"], ["16:46","箕面萱野"], ["16:48","中津"],
+      ["16:51","箕面萱野"], ["16:53","新大阪"], ["16:56","箕面萱野"], ["16:58","中津"],
+
+      ["17:01","箕面萱野"], ["17:03","新大阪"], ["17:06","箕面萱野"], ["17:08","中津"], ["17:11","箕面萱野"],
+      ["17:13","新大阪"], ["17:16","箕面萱野"], ["17:18","中津"], ["17:21","箕面萱野"], ["17:23","新大阪"],
+      ["17:26","箕面萱野"], ["17:28","中津"], ["17:31","箕面萱野"], ["17:33","新大阪"], ["17:36","箕面萱野"],
+      ["17:38","中津"], ["17:41","箕面萱野"], ["17:43","新大阪"], ["17:46","箕面萱野"], ["17:48","中津"],
+      ["17:51","箕面萱野"], ["17:53","新大阪"], ["17:56","箕面萱野"], ["17:58","中津"],
+
+      ["18:01","箕面萱野"], ["18:03","新大阪"], ["18:06","箕面萱野"], ["18:08","中津"], ["18:11","箕面萱野"],
+      ["18:13","新大阪"], ["18:16","箕面萱野"], ["18:18","中津"], ["18:21","箕面萱野"], ["18:23","新大阪"],
+      ["18:26","箕面萱野"], ["18:28","中津"], ["18:31","箕面萱野"], ["18:33","新大阪"], ["18:36","箕面萱野"],
+      ["18:38","中津"], ["18:41","箕面萱野"], ["18:43","新大阪"], ["18:46","箕面萱野"], ["18:48","中津"],
+      ["18:51","箕面萱野"], ["18:53","新大阪"], ["18:56","箕面萱野"], ["18:58","中津"],
+
+      ["19:01","箕面萱野"], ["19:04","新大阪"], ["19:07","箕面萱野"], ["19:10","中津"], ["19:13","箕面萱野"],
+      ["19:16","中津"], ["19:20","箕面萱野"], ["19:23","新大阪"], ["19:26","箕面萱野"], ["19:29","新大阪"],
+      ["19:33","箕面萱野"], ["19:36","新大阪"], ["19:39","箕面萱野"], ["19:42","新大阪"], ["19:45","箕面萱野"],
+      ["19:48","新大阪"], ["19:51","箕面萱野"], ["19:54","新大阪"], ["19:57","箕面萱野"],
+
+      ["20:00","箕面萱野"], ["20:04","新大阪"], ["20:07","箕面萱野"], ["20:10","新大阪"], ["20:14","箕面萱野"],
+      ["20:18","新大阪"], ["20:22","箕面萱野"], ["20:26","新大阪"], ["20:29","箕面萱野"], ["20:33","新大阪"],
+      ["20:36","箕面萱野"], ["20:39","箕面萱野"], ["20:43","箕面萱野"], ["20:47","新大阪"], ["20:51","箕面萱野"],
+      ["20:55","新大阪"], ["20:59","箕面萱野"],
+
+      ["21:03","箕面萱野"], ["21:07","箕面萱野"], ["21:11","新大阪"], ["21:15","箕面萱野"], ["21:20","新大阪"],
+      ["21:24","箕面萱野"], ["21:28","新大阪"], ["21:32","箕面萱野"], ["21:37","新大阪"], ["21:41","箕面萱野"],
+      ["21:45","新大阪"], ["21:49","箕面萱野"], ["21:53","新大阪"], ["21:57","箕面萱野"],
+
+      ["22:01","箕面萱野"], ["22:05","新大阪"], ["22:10","箕面萱野"], ["22:15","新大阪"], ["22:20","箕面萱野"],
+      ["22:25","新大阪"], ["22:30","箕面萱野"], ["22:35","新大阪"], ["22:40","箕面萱野"], ["22:45","新大阪"],
+      ["22:50","箕面萱野"], ["22:55","新大阪"],
+
+      ["23:00","箕面萱野"], ["23:05","江坂"], ["23:10","新大阪"], ["23:15","箕面萱野"], ["23:20","新大阪"],
+      ["23:25","箕面萱野"], ["23:30","新大阪"], ["23:35","江坂"], ["23:40","中津"], ["23:49","箕面萱野"],
+      ["23:59","中津"],
+
+      ["00:12","新大阪"]
+    ];
+
+    const WALK_OK = 12;
+    const FAST_OK = 6;
+
+    const pad = (n) => String(n).padStart(2, "0");
+    const toMinutes = (hhmm) => {
+      const [h, m] = hhmm.split(":").map(Number);
+      return h * 60 + m;
+    };
+
+    function judge(diff){
+      if (diff < 0) return { label: "発車済", className: "muted" };
+      if (diff >= WALK_OK) return { label: "歩いて間に合う", className: "green" };
+      if (diff >= FAST_OK) return { label: "早歩きなら間に合う", className: "amber" };
+      return { label: "急げ", className: "red" };
+    }
+
+    function getServices(now){
+      const current = now.getHours() * 60 + now.getMinutes();
+      return timetable
+        .map(([time, destination]) => {
+          const diff = toMinutes(time) - current;
+          return { time, destination, diff, status: judge(diff) };
+        })
+        .filter(item => item.diff >= -1)
+        .slice(0, 4);
+    }
+
+    function render(){
+      const now = new Date();
+      document.getElementById("clock").textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+      const services = getServices(now);
+      const next = services[0];
+
+      if (next){
+        document.getElementById("next-time").textContent = next.time;
+        document.getElementById("next-dest").textContent = next.destination;
+        document.getElementById("next-remain").textContent = next.diff <= 0 ? "0" : String(next.diff);
+        const status = document.getElementById("next-status");
+        status.textContent = next.status.label;
+        status.className = `status ${next.status.className}`;
+      } else {
+        document.getElementById("next-time").textContent = "--:--";
+        document.getElementById("next-dest").textContent = "本日の表示終了";
+        document.getElementById("next-remain").textContent = "0";
+        const status = document.getElementById("next-status");
+        status.textContent = "時刻データを追加すると続きも表示できます";
+        status.className = "status muted";
+      }
+
+      const body = document.getElementById("list-body");
+      body.innerHTML = services.map(item => `
+        <div class="item">
+          <div class="item-time">${item.time}</div>
+          <div>
+            <div class="item-dest">${item.destination}</div>
+            <div class="item-status ${item.status.className}">${item.status.label}</div>
+          </div>
+          <div class="item-remain">
+            <div class="item-remain-num">${item.diff <= 0 ? 0 : item.diff}</div>
+            <div class="item-remain-unit">min</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    render();
+    setInterval(render, 60 * 1000);
+  </script>
+</body>
+</html>
