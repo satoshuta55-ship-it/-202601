@@ -350,7 +350,7 @@
       if (diff < 0) return { label: "発車済", className: "muted" };
       if (diff >= WALK_OK) return { label: "歩いて間に合う", className: "green" };
       if (diff >= FAST_OK) return { label: "早歩きなら間に合う", className: "amber" };
-      return { label: "×", className: "red" };
+      return { label: "たぶんムリ！", className: "red" };
     }
 
     function getServices(now){
