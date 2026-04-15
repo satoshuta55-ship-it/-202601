@@ -426,6 +426,7 @@
 
       const services = getServices(now);
       const next = services[0];
+      const listServices = services.slice(1);
 
       if (next){
         document.getElementById("next-time").textContent = next.time;
@@ -444,19 +445,19 @@
       }
 
       const body = document.getElementById("list-body");
-      body.innerHTML = services.map(item => `
-        <div class="item">
-          <div class="item-time">${item.time}</div>
-          <div>
-            <div class="item-dest">${item.destination}</div>
-            <div class="item-status ${item.status.className}">${item.status.label}</div>
-          </div>
-          <div class="item-remain">
-            <div class="item-remain-num">${item.diff <= 0 ? 0 : item.diff}</div>
-            <div class="item-remain-unit">min</div>
-          </div>
-        </div>
-      `).join("");
+     body.innerHTML = listServices.map(item => `
+  <div class="item">
+    <div class="item-time">${item.time}</div>
+    <div>
+      <div class="item-dest">${item.destination}</div>
+      <div class="item-status ${item.status.className}">${item.status.label}</div>
+    </div>
+    <div class="item-remain">
+      <div class="item-remain-num">${item.diff <= 0 ? 0 : item.diff}</div>
+      <div class="item-remain-unit">min</div>
+    </div>
+  </div>
+`).join("");
     }
 
     render();
