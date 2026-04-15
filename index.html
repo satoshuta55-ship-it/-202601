@@ -337,8 +337,8 @@
       ["00:12","新大阪"]
     ];
 
-    const WALK_OK = 15;
-    const FAST_OK = 10;
+    const WALK_OK = 12;
+    const FAST_OK = 6;
 
     const pad = (n) => String(n).padStart(2, "0");
     const toMinutes = (hhmm) => {
@@ -350,7 +350,7 @@
       if (diff < 0) return { label: "発車済", className: "muted" };
       if (diff >= WALK_OK) return { label: "歩いて間に合う", className: "green" };
       if (diff >= FAST_OK) return { label: "早歩きなら間に合う", className: "amber" };
-      return { label: "たぶんムリ！", className: "red" };
+      return { label: "急げ", className: "red" };
     }
 
     function getServices(now){
@@ -361,7 +361,7 @@
           return { time, destination, diff, status: judge(diff) };
         })
         .filter(item => item.diff >= -1)
-        .slice(0, 4);
+        .slice(0, 6);
     }
 
     function render(){
